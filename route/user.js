@@ -61,7 +61,7 @@ router.post('/register', async (req, res) => {
   }
   // 没有该用户添加
   const current = await query(
-    `insert into user(username,mobile,password) values("${mobile}","${mobile}","${password}")`
+    `insert into user(username,mobile,password,add_time) values("${mobile}","${mobile}","${password}","${Date.now()}")`
   );
   if (current) {
     return res.send({ status: 1, msg: '注册成功' });

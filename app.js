@@ -10,6 +10,8 @@ const bodyParser = require('body-parser');
 const app = express();
 // user路由
 const userRouter = require('./route/user')
+// 视频路由
+const videoRouter = require('./route/video')
 // 释放静态资源
 app.use(express.static(path.join(__dirname, 'public')));
 // 解决跨域问题
@@ -22,6 +24,7 @@ app.use(bodyParser.urlencoded({
 
 // 使用路由
 app.use('/user', userRouter)
+app.use('/video', videoRouter)
 
 
 // 监听端口
