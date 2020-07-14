@@ -23,7 +23,11 @@ router.get('/getCode', (req, res) => {
 
 // 注册功能
 router.post('/register', async (req, res) => {
-  const { mobile, password, code } = req.body;
+  const {
+    mobile,
+    password,
+    code
+  } = req.body;
 
   if (
     !/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/.test(
@@ -64,14 +68,24 @@ router.post('/register', async (req, res) => {
     `insert into user(username,mobile,password,add_time) values("${mobile}","${mobile}","${password}","${Date.now()}")`
   );
   if (current) {
-    return res.send({ status: 1, msg: '注册成功' });
+    return res.send({
+      status: 1,
+      msg: '注册成功'
+    });
   } else {
-    return res.send({ status: 0, msg: '注册失败' });
+    return res.send({
+      status: 0,
+      msg: '注册失败'
+    });
   }
 });
 // 登录功能
 router.post('/login', async (req, res) => {
-  const { mobile, password, code } = req.body;
+  const {
+    mobile,
+    password,
+    code
+  } = req.body;
   if (
     !/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/.test(
       mobile
@@ -107,13 +121,18 @@ router.post('/login', async (req, res) => {
       data: user[0],
     });
   } else {
-    return res.send({ status: 0, msg: '账号密码错误' });
+    return res.send({
+      status: 0,
+      msg: '账号密码错误'
+    });
   }
 });
 
 // 根据手机号获取用户信息
 router.get('/getUser', async (req, res) => {
-  const { mobile } = req.query;
+  const {
+    mobile
+  } = req.query;
   const user = await query(`select * from user where mobile="${mobile}"`);
   if (user.length > 0) {
     return res.send({
@@ -122,7 +141,10 @@ router.get('/getUser', async (req, res) => {
       data: user[0],
     });
   } else {
-    return res.send({ status: 0, msg: '没有当前用户!' });
+    return res.send({
+      status: 0,
+      msg: '没有当前用户!'
+    });
   }
 });
 
