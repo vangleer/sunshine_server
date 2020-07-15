@@ -91,4 +91,50 @@ router.post('/dianzhan', async (req, res) => {
 
 });
 
+// 获取视频的评论和评论用户
+router.get('/getComments', async (req, res) => {
+  // 视频的id
+  let id = req.query.id
+  // 写入数据库
+  const result = await query(
+    `select c.*,u.nickname,u.icon from comment c left join user u on u.id=c.u_id where v_id="${id}"`
+  );
+  if (result.length > 0) {
+    return res.send({
+      status: 1,
+      msg: '获取成功!',
+      data: result
+    })
+  } else {
+    return res.send({
+      status: 0,
+      msg: '获取失败!'
+    })
+  }
+});
+
+// 添加评论
+router.post('/addComment', async (req, res) => {
+  // 视频的id
+  let {
+    id,
+    user_id,
+    content
+  } = req.body
+  // 写入数据库
+  const result = await query(
+    `insert into comment(v_id,u_id,txt) values("${id}","${user_id}","${content}")`
+  );
+  if (result) {
+    return res.send({
+      status: 1,
+      msg: '添加成功'
+    })
+  } else {
+    return res.send({
+      status: 0,
+      msg: '添加失败!'
+    })
+  }
+});
 module.exports = router;
