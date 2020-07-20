@@ -12,6 +12,8 @@ const app = express();
 const userRouter = require('./route/user')
 // 视频路由
 const videoRouter = require('./route/video')
+// 反馈路由
+const feedbackRouetr = require('./route/feedback')
 // mock数据
 const mockRouter = require('./route/myMock')
 // 释放静态资源
@@ -28,6 +30,7 @@ app.use(bodyParser.urlencoded({
 app.use('/user', userRouter)
 app.use('/video', videoRouter)
 app.use('/mock', mockRouter)
+app.use('/feedback', feedbackRouetr)
 
 // 监听端口
 app.listen(3000, () => {

@@ -50,6 +50,25 @@ Random.extend({
 });
 Random.photos();
 
+Random.extend({
+  colors2: function (date) {
+    var constellations = [
+      '#81ab25',
+      '#ff9d24',
+      '#6b4cd6',
+      '#f53a35',
+      '#24ff91',
+      '#6337dd',
+      '#d81dbf',
+      '#9499f5',
+      '#ecbea7',
+      '#b5b9c2',
+      '#dedede',
+    ];
+    return this.pick(constellations);
+  },
+});
+Random.colors2();
 /** =======================================发现数据============================================ */
 // 搜索数据
 router.get('/words', (req, res) => {
@@ -467,4 +486,228 @@ router.get('/tallyBookList', (req, res) => {
     data: data,
   });
 });
+
+/** =======================================个人信息============================================ */
+// 目标与数据
+router.get('/goalData', (req, res) => {
+  let data = Mock.mock({
+    status: 1, // 设置返回status
+    data: {
+      // 设置返回status
+      id: '@integer(1,3000)',
+      name: '@cname',
+      day_time: '@integer(1,2000)',
+      sum_time: '@integer(1000,5000)',
+      level: '@cword(2,4)',
+      hearing_num: '@integer(1,100)',
+      spoke_num: '@integer(1,100)',
+
+      topic: {
+        num: '@integer(1,100)',
+        title: '口语',
+        color: '@colors',
+      },
+      words: {
+        title: '词汇',
+        num: '@integer(1,100)',
+        color: '@colors',
+      },
+      phrase: {
+        title: '短语',
+        num: '@integer(1,100)',
+        color: '@colors',
+      },
+    },
+  });
+  res.send({
+    status: 1,
+    data: data,
+  });
+});
+
+// 难度调整
+router.get('/adjustList', (req, res) => {
+  let data = Mock.mock({
+    status: 1, // 设置返回status
+    data: [
+      {
+        // 设置返回status
+        id: '@integer(1,3000)',
+        easy: {
+          title: '入门',
+          'tags|1-4': [
+            {
+              tag: '@word(3,8)',
+              color: '@colors',
+            },
+          ],
+          tips: ['@cword(8,20)', '@cword(8,20)', '@cword(8,20)'],
+          down: ' 进行简单的日常对话',
+          img: '@covers',
+        },
+      },
+      {
+        // 设置返回status
+        id: '@integer(1,3000)',
+        easy: {
+          title: '简单',
+          'tags|1-4': [
+            {
+              tag: '@word(3,8)',
+              color: '@colors',
+            },
+          ],
+          tips: ['@cword(8,20)', '@cword(8,20)', '@cword(8,20)'],
+          down: ' 进行日常对话,描述经历,表达简单的观点',
+          img: '@covers',
+        },
+      },
+      {
+        // 设置返回status
+        id: '@integer(1,3000)',
+        easy: {
+          title: '进阶',
+          'tags|1-4': [
+            {
+              tag: '@word(3,8)',
+              color: '@colors',
+            },
+          ],
+          tips: ['@cword(8,20)', '@cword(8,20)', '@cword(8,20)'],
+          down: ' 进行日常对话,描述经历,表达简单的观点',
+          img: '@covers',
+        },
+      },
+      {
+        // 设置返回status
+        id: '@integer(1,3000)',
+        easy: {
+          title: '真实世界',
+          'tags|1-4': [
+            {
+              tag: '@word(3,8)',
+              color: '@colors',
+            },
+          ],
+          tips: ['@cword(8,20)', '@cword(8,20)', '@cword(8,20)'],
+          down: ' 进行日常对话,描述经历,表达简单的观点',
+          img: '@covers',
+        },
+      },
+      {
+        // 设置返回status
+        id: '@integer(1,3000)',
+        easy: {
+          title: '精通',
+          'tags|1-4': [
+            {
+              tag: '@word(3,8)',
+              color: '@colors',
+            },
+          ],
+          tips: ['@cword(8,20)', '@cword(8,20)', '@cword(8,20)'],
+          down: ' 进行日常对话,描述经历,表达简单的观点',
+          img: '@covers',
+        },
+      },
+    ],
+  });
+  res.send({
+    status: 1,
+    data: data,
+  });
+});
+
+// 喜欢和收藏
+router.get('/loveList', (req, res) => {
+  let data = Mock.mock({
+    status: 1, // 设置返回status
+    'data|3-8': [
+      {
+        // 设置返回status
+        id: '@integer(1,3000)',
+        name: '@cname',
+        love_num: '@integer(1,5000)',
+        word: '@word(10,60)',
+        'tip|': '#' + '@cword(2,8)',
+        photo: '@photos',
+        title: '@cword(2,8)',
+        Hear_num: '@integer(1,5000)',
+        spoke_num: '@integer(1,5000)',
+        isLove: false,
+        comment_num: '@integer(1,1000)',
+        add_time: '@integer(1,100)',
+        cover: '@covers',
+      },
+    ],
+  });
+  res.send({
+    status: 1,
+    data: data,
+  });
+});
+
+// 个人勋章
+router.get('/', (req, res) => {
+  let data = Mock.mock({
+    status: 1, // 设置返回status
+    data: {
+      // 设置返回status
+      id: '@integer(1,3000)',
+      name: '@cname',
+      Hear_num: '@integer(1,5000)',
+      spoke_num: '@integer(1,5000)',
+      model: '@integer(1,200)',
+      'grow_model|3-20': [
+        {
+          id: '@integer(1,3000)',
+          star: '@integer(0,3)',
+          day: '@integer(10,200)',
+          title: '@cword(2,6)',
+          color: '@colors2',
+        },
+      ],
+      'level_model|3-20': [
+        {
+          id: '@integer(1,3000)',
+          star: '@integer(0,3)',
+          day: '@integer(10,200)',
+          title: '@cword(2,6)',
+          color: '@colors2',
+        },
+      ],
+    },
+  });
+  res.send({
+    status: 1,
+    data: data,
+  });
+});
+
+// 我的积分
+router.get('/integralData', (req, res) => {
+  let data = Mock.mock({
+    status: 1, // 设置返回status
+    data: {
+      // 设置返回status
+      id: '@integer(1,3000)',
+      name: '@cname',
+      Hear_num: '@integer(1,5000)',
+      sum: '@integer(1,5000)',
+      day: '@integer(1,100)',
+      'types|6-20': [
+        {
+          title: '@cword(2,12)',
+          type: '@cword(2,12)',
+          add: '@integer(1,100)',
+        },
+      ],
+    },
+  });
+  res.send({
+    status: 1,
+    data: data,
+  });
+});
+
 module.exports = router;

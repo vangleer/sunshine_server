@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 const query = require('../db/index');
 const svgCaptcha = require('svg-captcha');
+var multer = require('multer');
+var upload = multer({
+  dest: 'public/imgs/',
+});
+const baseUrl = 'http://localhost:3000/imgs/';
 // 验证码配置文件;
 var codeConfig = {
   size: 4, // 验证码长度
@@ -134,7 +139,8 @@ router.get('/getUser', async (req, res) => {
     mobile
   } = req.query;
   const user = await query(`select * from user where mobile="${mobile}"`);
-  if (user.length > 0) {
+
+  if (user) {
     return res.send({
       status: 1,
       msg: '获取成功',
@@ -146,6 +152,74 @@ router.get('/getUser', async (req, res) => {
       msg: '没有当前用户!'
     });
   }
+});
+
+// 修改用户
+router.post('/editUser', async (req, res) => {
+  let {
+    user_id,
+    nickname,
+    gender,
+    identity,
+    birthday,
+    city,
+    signature
+  } = req.body
+  if (!user_id) {
+    return res.send({
+      status: 0,
+      msg: '修改失败!'
+    });
+  }
+  const user = await query(`update user set birthday="${birthday}",city="${city}",gender="${gender}",identity="${identity}",nickname="${nickname}",signature="${signature}" where id="${user_id}"`);
+  if (user.length > 0) {
+    return res.send({
+      status: 1,
+      msg: '修改成功'
+    });
+  } else {
+    return res.send({
+      status: 0,
+      msg: '修改失败!'
+    });
+  }
+});
+
+// 添加头像
+router.post('/addPhoto', upload.single('photo'), async (req, res) => {
+  if (!req.file) {
+    res.send({
+      status: 0,
+      msg: '请上传文件',
+    });
+  }
+  const {
+    user_id,
+  } = req.body;
+  const url = baseUrl + req.file.filename;
+  if (!user_id)
+    return res.send({
+      status: 0,
+      msg: '请先登录!',
+    });
+
+  // 没有该用户添加
+  const current = await query(
+    `update user set icon="${url}" where id="${user_id}"`
+  );
+
+  if (current) {
+    return res.send({
+      status: 1,
+      msg: '添加成功',
+    });
+  } else {
+    return res.send({
+      status: 0,
+      msg: '添加失败',
+    });
+  }
+  // res.send({ status: 0, file: req.file, data: req.body });
 });
 
 module.exports = router;
