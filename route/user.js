@@ -28,11 +28,7 @@ router.get('/getCode', (req, res) => {
 
 // 注册功能
 router.post('/register', async (req, res) => {
-  const {
-    mobile,
-    password,
-    code
-  } = req.body;
+  const { mobile, password, code } = req.body;
 
   if (
     !/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/.test(
@@ -75,22 +71,18 @@ router.post('/register', async (req, res) => {
   if (current) {
     return res.send({
       status: 1,
-      msg: '注册成功'
+      msg: '注册成功',
     });
   } else {
     return res.send({
       status: 0,
-      msg: '注册失败'
+      msg: '注册失败',
     });
   }
 });
 // 登录功能
 router.post('/login', async (req, res) => {
-  const {
-    mobile,
-    password,
-    code
-  } = req.body;
+  const { mobile, password, code } = req.body;
   if (
     !/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/.test(
       mobile
@@ -128,16 +120,14 @@ router.post('/login', async (req, res) => {
   } else {
     return res.send({
       status: 0,
-      msg: '账号密码错误'
+      msg: '账号密码错误',
     });
   }
 });
 
 // 根据手机号获取用户信息
 router.get('/getUser', async (req, res) => {
-  const {
-    mobile
-  } = req.query;
+  const { mobile } = req.query;
   const user = await query(`select * from user where mobile="${mobile}"`);
 
   if (user) {
@@ -149,7 +139,7 @@ router.get('/getUser', async (req, res) => {
   } else {
     return res.send({
       status: 0,
-      msg: '没有当前用户!'
+      msg: '没有当前用户!',
     });
   }
 });
@@ -163,24 +153,26 @@ router.post('/editUser', async (req, res) => {
     identity,
     birthday,
     city,
-    signature
-  } = req.body
+    signature,
+  } = req.body;
   if (!user_id) {
     return res.send({
       status: 0,
-      msg: '修改失败!'
+      msg: '修改失败!',
     });
   }
-  const user = await query(`update user set birthday="${birthday}",city="${city}",gender="${gender}",identity="${identity}",nickname="${nickname}",signature="${signature}" where id="${user_id}"`);
+  const user = await query(
+    `update user set birthday="${birthday}",city="${city}",gender="${gender}",identity="${identity}",nickname="${nickname}",signature="${signature}" where id="${user_id}"`
+  );
   if (user.length > 0) {
     return res.send({
       status: 1,
-      msg: '修改成功'
+      msg: '修改成功',
     });
   } else {
     return res.send({
       status: 0,
-      msg: '修改失败!'
+      msg: '修改失败!',
     });
   }
 });
@@ -193,9 +185,7 @@ router.post('/addPhoto', upload.single('photo'), async (req, res) => {
       msg: '请上传文件',
     });
   }
-  const {
-    user_id,
-  } = req.body;
+  const { user_id } = req.body;
   const url = baseUrl + req.file.filename;
   if (!user_id)
     return res.send({
@@ -220,6 +210,29 @@ router.post('/addPhoto', upload.single('photo'), async (req, res) => {
     });
   }
   // res.send({ status: 0, file: req.file, data: req.body });
+});
+
+// 注销用户
+router.get('/deleteUser', async (req, res) => {
+  let { user_id } = req.query;
+  if (!user_id) {
+    return res.send({
+      status: 0,
+      msg: '注销失败!',
+    });
+  }
+  const user = await query(`delete from user where id="${user_id}"`);
+  if (user) {
+    return res.send({
+      status: 1,
+      msg: '注销成功',
+    });
+  } else {
+    return res.send({
+      status: 0,
+      msg: '注销失败!',
+    });
+  }
 });
 
 module.exports = router;
