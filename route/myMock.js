@@ -18,8 +18,8 @@ Random.extend({
   },
 });
 Random.colors();
-//localhost:3000/imgs/source1.mp4
-http: Random.extend({
+// http:localhost:3000/imgs/source1.mp4
+Random.extend({
   covers: function (date) {
     var constellations = [
       'http://localhost:3000/imgs/user.jpg',
@@ -69,6 +69,23 @@ Random.extend({
   },
 });
 Random.colors2();
+Random.extend({
+  videos: function (date) {
+    var constellations = [
+      'http://localhost:3000/videos/source1.mp4',
+      'http://localhost:3000/videos/source2.mp4',
+      'http://localhost:3000/videos/source3.mp4',
+      'http://localhost:3000/videos/c1d378e0f4e7efdce19ecbd387cbe297',
+      'http://localhost:3000/videos/f9b04969a35cb198153274a5db05dba5',
+      'http://localhost:3000/videos/0b69a3c97e2321381b3e7f9191f28c8f',
+      'http://localhost:3000/videos/8586a3a59784dbba0add440c1dc30827',
+    ];
+    return this.pick(constellations);
+  },
+});
+Random.videos();
+// 随机视频
+
 /** =======================================发现数据============================================ */
 // 搜索数据
 router.get('/words', (req, res) => {
@@ -80,7 +97,7 @@ router.get('/words', (req, res) => {
       'data|100-200': [{
         // 设置返回status
         id: '@integer(1,3000)',
-        word: '@word',
+        word: '@sentence(1)',
       }, ],
     });
   } else if (type == 1) {
@@ -89,7 +106,7 @@ router.get('/words', (req, res) => {
       'data|100-200': [{
         // 设置返回status
         id: '@integer(1,3000)',
-        word: '@word',
+        word: '@sentence(1,4)',
       }, ],
     });
   } else {
@@ -216,7 +233,7 @@ router.get('/vocabulary', (req, res) => {
       'data|3-8': [{
         // 设置返回status
         id: '@integer(1,3000)',
-        name: '@word(1,8)',
+        name: '@sentence(1)',
         tag: '@cword(1)',
         color: '@colors',
         play_num: '@integer(1,5000)',
@@ -250,7 +267,7 @@ router.get('/phrase', (req, res) => {
       'data|3-8': [{
         // 设置返回status
         id: '@integer(1,3000)',
-        name: '@word(4,20)',
+        name: '@sentence(1,3)',
         tag: '@cword(1)',
         color: '@colors',
         play_num: '@integer(1,5000)',
@@ -281,7 +298,8 @@ router.get('/todayTask', (req, res) => {
     data: {
       // 设置返回status
       id: '@integer(1,3000)',
-      name: '@word(6,60)',
+      name: '@cword(2,8)',
+      words: '@sentence(2,10)',
       tag: '@cword(1)',
       color: '@colors',
       play_num: '@integer(1,5000)',
@@ -290,6 +308,7 @@ router.get('/todayTask', (req, res) => {
       collect: '@integer(1,2000)',
       love_num: '@integer(1,2000)',
       isCollect: false,
+
     },
   });
   res.send({
@@ -335,7 +354,7 @@ router.get('/comSelect', (req, res) => {
       id: '@integer(1,3000)',
       name: '@cname',
       love_num: '@integer(1,5000)',
-      word: '@word(10,60)',
+      word: '@sentence(2,8)',
       'tip|': '#' + '@cword(2,8)',
       cover: '@covers',
       photo: '@photos',
@@ -360,7 +379,7 @@ router.get('/youLike', (req, res) => {
       play_num: '@integer(1,5000)',
       'videos|1-8': ['@covers'],
       num: '@integer(1,300)',
-      paragraph: '@word(30,400)',
+      paragraph: '@paragraph(1,4)',
       collect: '@integer(1,2000)',
       love_num: '@integer(1,2000)',
       share_num: '@integer(1,2000)',
@@ -672,8 +691,62 @@ router.get('/getActiveList', (req, res) => {
       month: '@integer(1,12)',
       day: '@integer(1,30)',
       num: '@integer(1,3000)',
-      daka_num: '@integer(1,3000)',
+      daka_num: '@integer(1234567891,45649841154451)',
     }, ]
+  });
+  res.send({
+    status: 1,
+    data: data,
+  });
+});
+
+// 随机获取一个视频
+router.get('/getVideo', (req, res) => {
+  let data = Mock.mock({
+    status: 1, // 设置返回status
+    'data': {
+      // 设置返回status
+      id: '@integer(1,3000)',
+      name: '@cname',
+      love_num: '@integer(1,5000)',
+      word: '@sentence(3,8)',
+      commentText: '',
+      'tip|': '#' + '@cword(2,8)',
+      cover: '@covers',
+      photo: '@photos',
+      video: '@videos',
+      title: '@cword(2,8)',
+      isLove: false,
+      comment_num: '@integer(1,1000)',
+      share_num: '@integer(1,1000)',
+      add_time: '@time',
+    },
+  });
+  res.send({
+    status: 1,
+    data: data,
+  });
+});
+
+// 获取视频的评论
+// 随机获取一个视频
+router.get('/getVideoComments', (req, res) => {
+  let data = Mock.mock({
+    status: 1, // 设置返回status
+    'data|1-8': [{
+      // 设置返回status
+      id: '@integer(1,3000)',
+      nickname: '@cname',
+      love_num: '@integer(1,500)',
+      word: '@sentence(3,8)',
+      txt: '@csentence(1,20)',
+      icon: '@photos',
+      title: '@cword(2,8)',
+      isLove: false,
+      comment_num: '@integer(1,1000)',
+      share_num: '@integer(1,1000)',
+      add_time: '@date(T)',
+    }],
   });
   res.send({
     status: 1,
