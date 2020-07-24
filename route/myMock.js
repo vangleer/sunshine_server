@@ -308,7 +308,6 @@ router.get('/todayTask', (req, res) => {
       collect: '@integer(1,2000)',
       love_num: '@integer(1,2000)',
       isCollect: false,
-
     },
   });
   res.send({
@@ -625,7 +624,7 @@ router.get('/loveList', (req, res) => {
 });
 
 // 个人勋章
-router.get('/', (req, res) => {
+router.get('/modelData', (req, res) => {
   let data = Mock.mock({
     status: 1, // 设置返回status
     data: {
@@ -692,7 +691,7 @@ router.get('/getActiveList', (req, res) => {
       day: '@integer(1,30)',
       num: '@integer(1,3000)',
       daka_num: '@integer(1234567891,45649841154451)',
-    }, ]
+    }, ],
   });
   res.send({
     status: 1,
@@ -704,7 +703,7 @@ router.get('/getActiveList', (req, res) => {
 router.get('/getVideo', (req, res) => {
   let data = Mock.mock({
     status: 1, // 设置返回status
-    'data': {
+    data: {
       // 设置返回status
       id: '@integer(1,3000)',
       name: '@cname',
@@ -746,7 +745,55 @@ router.get('/getVideoComments', (req, res) => {
       comment_num: '@integer(1,1000)',
       share_num: '@integer(1,1000)',
       add_time: '@date(T)',
-    }],
+    }, ],
+  });
+  res.send({
+    status: 1,
+    data: data,
+  });
+});
+
+// 赞和感谢
+router.get('/getLoveList', (req, res) => {
+  let data = Mock.mock({
+    status: 1, // 设置返回status
+    'data|1-8': [{
+      // 设置返回status
+      id: '@integer(1,3000)',
+      nickname: '@cname',
+      love_num: '@integer(1,500)',
+      word: '@cword(3,8)',
+      txt: '@csentence(1,20)',
+      img_num: '@integer(1,7)',
+      icon: '@photos',
+      title: '@cword(2,8)',
+      isLove: false,
+      comment_num: '@integer(1,1000)',
+      share_num: '@integer(1,1000)',
+      add_time: '@date(T)',
+    }, ],
+  });
+  res.send({
+    status: 1,
+    data: data,
+  });
+});
+
+// 新增粉丝
+router.get('/getfanList', (req, res) => {
+  let data = Mock.mock({
+    status: 1, // 设置返回status
+    'data|1-8': [{
+      // 设置返回status
+      id: '@integer(1,3000)',
+      nickname: '@cname',
+      love_num: '@integer(1,500)',
+      word: '@cword(3,8)',
+      txt: '@csentence(1,20)',
+      img_num: '@integer(1,7)',
+      icon: '@photos',
+      title: '@cword(2,8)',
+    }, ],
   });
   res.send({
     status: 1,
