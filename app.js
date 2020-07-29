@@ -16,6 +16,7 @@ const videoRouter = require('./route/video')
 const feedbackRouetr = require('./route/feedback')
 // mock数据
 const mockRouter = require('./route/myMock')
+const {BASE_URL} = require('./config/index')
 // 释放静态资源
 app.use(express.static(path.join(__dirname, 'public')));
 // 解决跨域问题
@@ -34,5 +35,5 @@ app.use('/feedback', feedbackRouetr)
 
 // 监听端口
 app.listen(3000, () => {
-  console.log('server is running at: http://localhost:3000');
+  console.log('server is running at: '+BASE_URL);
 });

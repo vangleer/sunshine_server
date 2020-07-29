@@ -1,11 +1,19 @@
 const mysql = require('mysql');
-//创建数据库连接
+// 创建数据库连接
 let pool = mysql.createPool({
   host: '118.31.225.7',
   user: 'root',
   password: 'asdfaksXX@X52',
   database: 'test'
 });
+
+//创建数据库连接
+// let pool = mysql.createPool({
+//   host: '39.107.99.4',
+//   user: 'root',
+//   password: '0c02c0956908c5fa',
+//   database: 'sun'
+// });
 
 let query = function (sql, values) {
   // 返回一个 Promise
@@ -28,4 +36,4 @@ let query = function (sql, values) {
     })
   })
 }
-module.exports = query;
+module.exports = query; 

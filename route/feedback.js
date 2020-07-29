@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const query = require('../db/index');
+const {BASE_URL} = require('../config/index')
 var multer = require('multer');
 var upload = multer({
   dest: 'public/imgs/',
 });
 // 服务器根路径
-const baseUrl = 'http://localhost:3000/imgs/';
+const baseUrl = BASE_URL+'imgs/';
 router.get('/test', (req, res) => {
   res.send('yes')
 })

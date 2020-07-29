@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const query = require('../db/index');
+const {BASE_URL} = require('../config/index')
 const svgCaptcha = require('svg-captcha');
 var multer = require('multer');
 var upload = multer({
   dest: 'public/imgs/',
 });
-const baseUrl = 'http://localhost:3000/imgs/';
+const baseUrl = BASE_URL+'imgs/';
 // 验证码配置文件;
 var codeConfig = {
   size: 4, // 验证码长度

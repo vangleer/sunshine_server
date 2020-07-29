@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Mock = require('mockjs');
+const {BASE_URL} = require('../config/index')
 const Random = Mock.Random;
 const query = require('../db/index');
 Random.extend({
@@ -22,15 +23,15 @@ Random.colors();
 Random.extend({
   covers: function (date) {
     var constellations = [
-      'http://localhost:3000/imgs/user.jpg',
-      'http://localhost:3000/imgs/lun1.jpeg',
-      'http://localhost:3000/imgs/lun2.jpg',
-      'http://localhost:3000/imgs/lun3.jpg',
-      'http://localhost:3000/imgs/lun4.jpg',
-      'http://localhost:3000/imgs/lun5.jpg',
-      'http://localhost:3000/imgs/study1.jpg',
-      'http://localhost:3000/imgs/user2.jpg',
-      'http://localhost:3000/imgs/study3.png',
+      BASE_URL+'imgs/user.jpg',
+      BASE_URL+'imgs/lun1.jpeg',
+      BASE_URL+'imgs/lun2.jpg',
+      BASE_URL+'imgs/lun3.jpg',
+      BASE_URL+'imgs/lun4.jpg',
+      BASE_URL+'imgs/lun5.jpg',
+      BASE_URL+'imgs/study1.jpg',
+      BASE_URL+'imgs/user2.jpg',
+      BASE_URL+'imgs/study3.png',
     ];
     return this.pick(constellations);
   },
@@ -40,10 +41,10 @@ Random.covers();
 Random.extend({
   photos: function (date) {
     var constellations = [
-      'http://localhost:3000/imgs/user.jpg',
-      'http://localhost:3000/imgs/user2.jpg',
-      'http://localhost:3000/imgs/lun1.jpeg',
-      'http://localhost:3000/imgs/lun2.jpg',
+      BASE_URL+'imgs/user.jpg',
+      BASE_URL+'imgs/user2.jpg',
+      BASE_URL+'imgs/lun1.jpeg',
+      BASE_URL+'imgs/lun2.jpg',
     ];
     return this.pick(constellations);
   },
@@ -72,13 +73,13 @@ Random.colors2();
 Random.extend({
   videos: function (date) {
     var constellations = [
-      'http://localhost:3000/videos/source1.mp4',
-      'http://localhost:3000/videos/source2.mp4',
-      'http://localhost:3000/videos/source3.mp4',
-      'http://localhost:3000/videos/c1d378e0f4e7efdce19ecbd387cbe297',
-      'http://localhost:3000/videos/f9b04969a35cb198153274a5db05dba5',
-      'http://localhost:3000/videos/0b69a3c97e2321381b3e7f9191f28c8f',
-      'http://localhost:3000/videos/8586a3a59784dbba0add440c1dc30827',
+      BASE_URL+'videos/source1.mp4',
+      BASE_URL+'videos/source2.mp4',
+      BASE_URL+'videos/source3.mp4',
+      BASE_URL+'videos/c1d378e0f4e7efdce19ecbd387cbe297',
+      BASE_URL+'videos/f9b04969a35cb198153274a5db05dba5',
+      BASE_URL+'videos/0b69a3c97e2321381b3e7f9191f28c8f',
+      BASE_URL+'videos/8586a3a59784dbba0add440c1dc30827',
     ];
     return this.pick(constellations);
   },
@@ -793,6 +794,22 @@ router.get('/getfanList', (req, res) => {
       img_num: '@integer(1,7)',
       icon: '@photos',
       title: '@cword(2,8)',
+    }, ],
+  });
+  res.send({
+    status: 1,
+    data: data,
+  });
+});
+
+// 登录天数
+router.get('/loginDays', (req, res) => {
+  let data = Mock.mock({
+    status: 1, // 设置返回status
+    'data|40-60': [{
+      // 设置返回status
+      id: '@integer(1,3000)',
+      counts:['@boolean','@boolean','@boolean','@boolean','@boolean','@boolean','@boolean'] 
     }, ],
   });
   res.send({

@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const query = require('../db/index');
+const {BASE_URL} = require('../config/index')
 var multer = require('multer');
 var upload = multer({
   dest: 'public/videos/',
 });
 // 服务器根路径
-const baseUrl = 'http://localhost:3000/videos/';
+const baseUrl = BASE_URL+'videos/';
 // 获取视频
 router.get('/getVideos', async (req, res) => {
   const list = await query(
